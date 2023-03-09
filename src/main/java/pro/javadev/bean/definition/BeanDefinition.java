@@ -1,5 +1,6 @@
 package pro.javadev.bean.definition;
 
+import pro.javadev.bean.BeanDependency;
 import pro.javadev.bean.creation.BeanCreationStrategy;
 import pro.javadev.bean.BeanCreationType;
 
@@ -15,7 +16,7 @@ public interface BeanDefinition {
 
     void setBeanClass(Class<?> type);
 
-    List<Class<?>> getBeanDependencies();
+    List<BeanDependency> getBeanDependencies();
 
     BeanCreationType getBeanCreationType();
 

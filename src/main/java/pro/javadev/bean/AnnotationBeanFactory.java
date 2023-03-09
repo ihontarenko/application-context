@@ -14,9 +14,8 @@ import pro.javadev.bean.definition.MethodBeanDefinition;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.lang.reflect.Parameter;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static pro.javadev.bean.BeanClassScanner.*;
@@ -25,11 +24,13 @@ public class AnnotationBeanFactory implements BeanFactory {
 
     private final Map<String, BeanDefinition>  definitions;
     private final Map<String, Object>          beans;
+    private final Map<Class<?>, List<String>>  names;
     private final BeanCreationStrategyResolver resolver;
 
     public AnnotationBeanFactory() {
         this.beans = new ConcurrentHashMap<>();
         this.definitions = new ConcurrentHashMap<>();
+        this.names = new ConcurrentHashMap<>();
         this.resolver = new BeanCreationStrategyResolver(
                 new ConstructorBeanCreationStrategy(), new MethodBeanCreationStrategy(), new SupplierBeanCreationStrategy());
     }
@@ -53,8 +54,21 @@ public class AnnotationBeanFactory implements BeanFactory {
     }
 
     @Override
-    public <T> T getBean(String beanName) {
-        return (T) beans.computeIfAbsent(beanName, bean -> createBean(getBeanDefinition(beanName)));
+    public <T> T getBean(String name) {
+        T bean = (T) beans.get(name);
+
+        if (bean == null) {
+            BeanDefinition definition = getBeanDefinition(name);
+            bean = createBean(definition);
+            beans.put(definition.getBeanName(), bean);
+        }
+
+        return bean;
+    }
+
+    @Override
+    public List<String> getBeanNames(Class<?> type) {
+        return names.get(type);
     }
 
     @Override
@@ -74,7 +88,13 @@ public class AnnotationBeanFactory implements BeanFactory {
 
     @Override
     public BeanDefinition getBeanDefinition(String name) {
-        return definitions.get(name);
+        BeanDefinition definition = definitions.get(name);
+
+        if (definition == null) {
+            throw new ObjectCreationException("NO BEAN DEFINITION FOUND FOR NAME: " + name);
+        }
+
+        return definition;
     }
 
     @Override
@@ -92,8 +112,8 @@ public class AnnotationBeanFactory implements BeanFactory {
         definition.setConstructor(constructor);
 
         if (constructor.getParameterCount() != 0) {
-            for (Class<?> parameterType : constructor.getParameterTypes()) {
-                definition.getBeanDependencies().add(parameterType);
+            for (Parameter parameter : constructor.getParameters()) {
+                processDependencies(definition.getBeanDependencies(), parameter);
             }
         }
 
@@ -108,18 +128,30 @@ public class AnnotationBeanFactory implements BeanFactory {
         definition.setBeanFactoryMethod(factoryMethod);
 
         if (factoryMethod.getParameterCount() != 0) {
-            for (Class<?> parameterType : factoryMethod.getParameterTypes()) {
-                definition.getBeanDependencies().add(parameterType);
+            for (Parameter parameter : factoryMethod.getParameters()) {
+                processDependencies(definition.getBeanDependencies(), parameter);
             }
         }
 
         return definition;
     }
 
+    protected void processDependencies(List<BeanDependency> dependencies, Parameter parameter) {
+        String name = null;
+
+        if (parameter.isAnnotationPresent(Name.class)) {
+            name = parameter.getAnnotation(Name.class).value();
+        }
+
+        dependencies.add(new NamedDependency(parameter.getType(), name));
+    }
+
     @Override
     public void registerBeanDefinition(BeanDefinition definition) {
         if (!definitions.containsKey(definition.getBeanName())) {
             definitions.put(definition.getBeanName(), definition);
+            names.computeIfAbsent(definition.getBeanClass(), names -> new ArrayList<>())
+                    .add(definition.getBeanName());
         } else {
             throw new DuplicateBeanDefinitionException(definition);
         }

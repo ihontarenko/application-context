@@ -1,5 +1,6 @@
 package pro.javadev.bean.definition;
 
+import pro.javadev.bean.BeanDependency;
 import pro.javadev.bean.creation.BeanCreationStrategy;
 
 import java.util.ArrayList;
@@ -7,7 +8,7 @@ import java.util.List;
 
 abstract public class AbstractBeanDefinition implements BeanDefinition {
 
-    protected final List<Class<?>>       dependencies;
+    protected final List<BeanDependency> dependencies;
     protected       String               name;
     protected       Class<?>             type;
     protected       Object               instance = null;
@@ -40,7 +41,7 @@ abstract public class AbstractBeanDefinition implements BeanDefinition {
     }
 
     @Override
-    public List<Class<?>> getBeanDependencies() {
+    public List<BeanDependency> getBeanDependencies() {
         return dependencies;
     }
 

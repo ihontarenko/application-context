@@ -6,7 +6,12 @@ public class BeansContainer {
 
     @Bean("nameOfUser")
     public String testString() {
-        return getClass().getName();
+        return "John Doe";
+    }
+
+    @Bean("nameOfUser2")
+    public String testString2() {
+        return "Chuck Norris";
     }
 
 }

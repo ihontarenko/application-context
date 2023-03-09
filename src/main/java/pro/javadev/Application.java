@@ -1,6 +1,5 @@
 package pro.javadev;
 
-import pro.javadev.app.services.ServiceA;
 import pro.javadev.app.services.ServiceB;
 import pro.javadev.bean.context.AnnotationApplicationContext;
 import pro.javadev.bean.context.ApplicationContext;
@@ -16,7 +15,11 @@ public class Application {
         context.addBeanProcessor(new ApplicationContextAwareBeanProcessor(context));
 
         System.out.println(
-                (Object) context.getBean("ANOTHER_SERVICE_2")
+                (Object) context.getBean("ANOTHER_SERVICE")
+        );
+
+        System.out.println(
+                (Object) context.getBean("ANOTHER_SERVICE_B")
         );
 
         System.out.println("FINISH");
