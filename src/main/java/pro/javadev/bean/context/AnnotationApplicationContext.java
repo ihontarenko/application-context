@@ -3,20 +3,19 @@ package pro.javadev.bean.context;
 import pro.javadev.bean.AnnotationBeanFactory;
 import pro.javadev.bean.BeanFactory;
 import pro.javadev.bean.processor.BeanProcessor;
+import pro.javadev.bean.processor.Processable;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class AnnotationApplicationContext implements ApplicationContext {
+public class AnnotationApplicationContext implements ApplicationContext, Processable {
 
-    private final Map<String, Object> beans      = new ConcurrentHashMap<>();
-    private final BeanFactory           factory;
-    private final List<BeanProcessor>   processors = new ArrayList<>();
+    private final Map<String, Object> beans = new ConcurrentHashMap<>();
+    private final BeanFactory         factory;
 
     private AnnotationApplicationContext(BeanFactory factory) {
         this.factory = factory;
+        this.factory.setApplicationContext(this);
     }
 
     public static ApplicationContext run(Class<?>... classes) {
@@ -38,19 +37,13 @@ public class AnnotationApplicationContext implements ApplicationContext {
     @Override
     public <T> T getBean(String beanName) {
         return (T) beans.computeIfAbsent(beanName, name -> {
-            Object bean = factory.getBean(name);
-
-            if (bean != null) {
-                processors.forEach(processor -> processor.process(bean));
-            }
-
-            return bean;
+            return factory.getBean(name);
         });
     }
 
     @Override
     public void addBeanProcessor(BeanProcessor processor) {
-        processors.add(processor);
+        factory.addBeanProcessor(processor);
     }
 
     @Override

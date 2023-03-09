@@ -4,4 +4,6 @@ public interface ApplicationContextAware {
 
     void setApplicationContext(ApplicationContext context);
 
+    ApplicationContext getApplicationContext();
+
 }

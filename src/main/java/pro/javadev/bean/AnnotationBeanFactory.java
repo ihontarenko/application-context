@@ -3,6 +3,7 @@ package pro.javadev.bean;
 import pro.javadev.ClassUtils;
 import pro.javadev.ReflectionUtils;
 import pro.javadev.StringUtils;
+import pro.javadev.bean.context.ApplicationContext;
 import pro.javadev.bean.creation.BeanCreationStrategy;
 import pro.javadev.bean.creation.ConstructorBeanCreationStrategy;
 import pro.javadev.bean.creation.MethodBeanCreationStrategy;
@@ -11,6 +12,7 @@ import pro.javadev.bean.definition.BeanDefinition;
 import pro.javadev.bean.definition.ConstructorBeanDefinition;
 import pro.javadev.bean.definition.DuplicateBeanDefinitionException;
 import pro.javadev.bean.definition.MethodBeanDefinition;
+import pro.javadev.bean.processor.BeanProcessor;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -26,13 +28,14 @@ public class AnnotationBeanFactory implements BeanFactory {
     private final Map<String, Object>          beans;
     private final Map<Class<?>, List<String>>  names;
     private final BeanCreationStrategyResolver resolver;
+    private final List<BeanProcessor>          processors = new ArrayList<>();
+    private       ApplicationContext           context;
 
     public AnnotationBeanFactory() {
         this.beans = new ConcurrentHashMap<>();
         this.definitions = new ConcurrentHashMap<>();
         this.names = new ConcurrentHashMap<>();
-        this.resolver = new BeanCreationStrategyResolver(
-                new ConstructorBeanCreationStrategy(), new MethodBeanCreationStrategy(), new SupplierBeanCreationStrategy());
+        this.resolver = new BeanCreationStrategyResolver(new ConstructorBeanCreationStrategy(), new MethodBeanCreationStrategy(), new SupplierBeanCreationStrategy());
     }
 
     @Override
@@ -50,7 +53,16 @@ public class AnnotationBeanFactory implements BeanFactory {
 
     @Override
     public <T> T getBean(Class<T> type) {
-        return getBean(createBeanName(type));
+        String       name  = createBeanName(type);
+        List<String> names = getBeanNames(type);
+
+        if (names.size() > 1) {
+            throw new ObjectCreationException("SPECIFY ACTUAL BEAN NAME ONE OF "+ names +" OF TYPE: " + type);
+        } else if (names.size() == 1) {
+            name = names.get(0);
+        }
+
+        return getBean(name);
     }
 
     @Override
@@ -75,6 +87,8 @@ public class AnnotationBeanFactory implements BeanFactory {
     public <T> T createBean(BeanDefinition definition) {
         BeanCreationStrategy strategy = resolver.resolve(definition);
         T                    instance = (T) strategy.createBean(definition, this);
+
+        processors.forEach(processor -> processor.process(instance, getApplicationContext()));
 
         definition.setBeanInstance(instance);
 
@@ -136,22 +150,11 @@ public class AnnotationBeanFactory implements BeanFactory {
         return definition;
     }
 
-    protected void processDependencies(List<BeanDependency> dependencies, Parameter parameter) {
-        String name = null;
-
-        if (parameter.isAnnotationPresent(Name.class)) {
-            name = parameter.getAnnotation(Name.class).value();
-        }
-
-        dependencies.add(new NamedDependency(parameter.getType(), name));
-    }
-
     @Override
     public void registerBeanDefinition(BeanDefinition definition) {
         if (!definitions.containsKey(definition.getBeanName())) {
             definitions.put(definition.getBeanName(), definition);
-            names.computeIfAbsent(definition.getBeanClass(), names -> new ArrayList<>())
-                    .add(definition.getBeanName());
+            names.computeIfAbsent(definition.getBeanClass(), names -> new ArrayList<>()).add(definition.getBeanName());
         } else {
             throw new DuplicateBeanDefinitionException(definition);
         }
@@ -187,6 +190,31 @@ public class AnnotationBeanFactory implements BeanFactory {
         beanName = StringUtils.underscored(beanName, true);
 
         return beanName;
+    }
+
+    @Override
+    public void addBeanProcessor(BeanProcessor processor) {
+        this.processors.add(processor);
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext context) {
+        this.context = context;
+    }
+
+    @Override
+    public ApplicationContext getApplicationContext() {
+        return context;
+    }
+
+    private void processDependencies(List<BeanDependency> dependencies, Parameter parameter) {
+        String name = null;
+
+        if (parameter.isAnnotationPresent(Name.class)) {
+            name = parameter.getAnnotation(Name.class).value();
+        }
+
+        dependencies.add(new NamedDependency(parameter.getType(), name));
     }
 
     private Set<Class<?>> scanBeanClasses(Class<?>... classes) {

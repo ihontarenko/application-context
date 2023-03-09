@@ -1,11 +1,13 @@
 package pro.javadev.bean;
 
+import pro.javadev.bean.context.ApplicationContextAware;
 import pro.javadev.bean.definition.BeanDefinition;
+import pro.javadev.bean.processor.Processable;
 
 import java.lang.reflect.Method;
 import java.util.List;
 
-public interface BeanFactory {
+public interface BeanFactory extends Processable, ApplicationContextAware {
 
     <T> T getBean(Class<T> type);
 

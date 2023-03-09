@@ -11,7 +11,7 @@ import java.util.Map;
 public class ApplicationBeansConfig {
 
     @Bean
-    public Map<String, String> envs(String name) {
+    public Map<String, String> envs(@Name("NAME_OF_USER2") String name) {
         return Map.of("k", getClass().getName(), "n", name);
     }
 

@@ -5,14 +5,8 @@ import pro.javadev.bean.context.ApplicationContextAware;
 
 public class ApplicationContextAwareBeanProcessor implements BeanProcessor {
 
-    private final ApplicationContext context;
-
-    public ApplicationContextAwareBeanProcessor(ApplicationContext context) {
-        this.context = context;
-    }
-
     @Override
-    public void process(Object object) {
+    public void process(Object object, ApplicationContext context) {
         if (object instanceof ApplicationContextAware bean) {
             bean.setApplicationContext(context);
         }

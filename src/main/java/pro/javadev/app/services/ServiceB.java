@@ -11,7 +11,11 @@ public class ServiceB implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(ApplicationContext context) {
-        System.out.println("context set");
         this.context = context;
+    }
+
+    @Override
+    public ApplicationContext getApplicationContext() {
+        return context;
     }
 }
