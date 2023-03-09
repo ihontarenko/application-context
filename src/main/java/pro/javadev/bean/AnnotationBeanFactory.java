@@ -57,7 +57,7 @@ public class AnnotationBeanFactory implements BeanFactory {
         List<String> names = getBeanNames(type);
 
         if (names.size() > 1) {
-            throw new ObjectCreationException("SPECIFY ACTUAL BEAN NAME ONE OF "+ names +" OF TYPE: " + type);
+            throw new AmbiguousBeanNameException(names, type);
         } else if (names.size() == 1) {
             name = names.get(0);
         }

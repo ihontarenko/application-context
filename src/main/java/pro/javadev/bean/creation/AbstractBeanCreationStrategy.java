@@ -1,5 +1,6 @@
 package pro.javadev.bean.creation;
 
+import pro.javadev.bean.AmbiguousBeanNameException;
 import pro.javadev.bean.BeanDependency;
 import pro.javadev.bean.BeanFactory;
 import pro.javadev.bean.ObjectCreationException;
@@ -17,7 +18,7 @@ abstract public class AbstractBeanCreationStrategy implements BeanCreationStrate
             String       name  = dependency.getBeanName();
 
             if (name == null && names.size() > 1) {
-                throw new ObjectCreationException("SPECIFY ACTUAL BEAN NAME ONE OF "+ names +" OF TYPE: " + dependency.getBeanClass());
+                throw new AmbiguousBeanNameException(names, dependency.getBeanClass());
             } else if (names.size() == 1) {
                 name = names.get(0);
             }
