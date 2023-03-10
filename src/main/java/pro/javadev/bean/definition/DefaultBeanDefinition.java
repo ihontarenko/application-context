@@ -2,18 +2,15 @@ package pro.javadev.bean.definition;
 
 import pro.javadev.bean.BeanCreationType;
 
-import java.util.List;
-import java.util.function.Supplier;
+public class DefaultBeanDefinition extends AbstractBeanDefinition {
 
-public class InterfaceBeanDefinition extends AbstractBeanDefinition {
-
-    public InterfaceBeanDefinition(String name, Class<?> interfaceType) {
-        super(name, interfaceType);
+    public DefaultBeanDefinition(String name, Class<?> type) {
+        super(name, type);
     }
 
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder("INTERFACE_BEAN_DEFINITION: ");
+        final StringBuilder builder = new StringBuilder("DEFAULT_BEAN_DEFINITION: ");
 
         builder.append(super.toString());
 

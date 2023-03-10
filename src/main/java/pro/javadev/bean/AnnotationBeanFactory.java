@@ -126,8 +126,8 @@ public class AnnotationBeanFactory implements BeanFactory {
 
     @Override
     public BeanDefinition createBeanDefinition(Class<?> interfaceType, List<Class<?>> subClasses) {
-        String                  beanName   = getBeanName(interfaceType);
-        InterfaceBeanDefinition definition = new InterfaceBeanDefinition(beanName, interfaceType);
+        String                beanName   = getBeanName(interfaceType);
+        DefaultBeanDefinition definition = new DefaultBeanDefinition(beanName, interfaceType);
 
         for (Class<?> subClass : subClasses) {
             BeanDefinition subClassDefinition = createBeanDefinition(subClass);
