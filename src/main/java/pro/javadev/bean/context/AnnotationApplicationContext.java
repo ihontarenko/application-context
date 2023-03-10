@@ -16,7 +16,7 @@ public class AnnotationApplicationContext implements ApplicationContext, Process
 
     public static ApplicationContext run(Class<?>... classes) {
         Class<?>[]  root    = classes == null ? new Class<?>[]{ApplicationContext.class} : classes;
-        BeanFactory factory = new BeanFacrotyBuilder(classes).build();
+        BeanFactory factory = new BeanFacrotyBuilder(root).build();
 
         return new AnnotationApplicationContext(factory);
     }
