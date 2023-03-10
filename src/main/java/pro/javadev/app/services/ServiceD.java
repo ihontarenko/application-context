@@ -1,7 +1,7 @@
 package pro.javadev.app.services;
 
 import pro.javadev.bean.BeanContructor;
-import pro.javadev.bean.Inject;
+import pro.javadev.bean.BeanInjection;
 
 import java.util.StringJoiner;
 
@@ -9,10 +9,10 @@ public class ServiceD implements ServiceInterface {
 
     private String name;
 
-    @Inject
+    @BeanInjection
     private Storage storage;
 
-    @Inject("REMOTE_USER_SERVICE")
+    @BeanInjection("REMOTE_USER_SERVICE")
     private UserService userService;
 
     @BeanContructor

@@ -28,10 +28,11 @@ public class ClassScannerExample {
 //        scanner.addIncludeFilter(new RegexClassFilter(".*package-info.*", true));
 //        scanner.addIncludeFilter(Class::isEnum);
 //        scanner.addFilter(Class::isInterface);
+        scanner.addFilter(Class::isAnnotation);
 //        scanner.addIncludeFilter(new AnnotationClassFilter(FunctionalInterface.class));
 //        scanner.addIncludeFilter(new SubclassClassFilter(Serializable.class));
-        scanner.addFilter(new SubclassClassFilter(BeanDefinition.class));
-        scanner.addFilter(new AccessModifierClassFilter(Modifier.ABSTRACT, true));
+//        scanner.addFilter(new SubclassClassFilter(BeanDefinition.class));
+//        scanner.addFilter(new AccessModifierClassFilter(Modifier.ABSTRACT, true));
 
         Set<Class<?>> classes = scanner.scan("pro.javadev", loader);
 

@@ -16,7 +16,7 @@ public class BeanClassScanner extends ClassScanner {
 
     public static final  ClassFilter  METHOD_BEAN_ANNOTATED_CLASS_FILTER         = new MethodAnnotatedClassFilter(Bean.class, Modifier.PUBLIC);
     public static final  ClassFilter  CLASS_BEAN_ANNOTATED_CLASS_FILTER          = new ClassAnnotatedClassFilter(Bean.class);
-    public static final  ClassFilter  CLASS_CONFIGURATION_ANNOTATED_CLASS_FILTER = new ClassAnnotatedClassFilter(Configuration.class);
+    public static final  ClassFilter  CLASS_CONFIGURATION_ANNOTATED_CLASS_FILTER = new ClassAnnotatedClassFilter(BeanConfiguration.class);
     private static final ClassScanner CLASS_SCANNER                              = new BeanClassScanner();
 
     public BeanClassScanner() {

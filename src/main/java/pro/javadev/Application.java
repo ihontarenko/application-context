@@ -1,5 +1,6 @@
 package pro.javadev;
 
+import pro.javadev.app.User;
 import pro.javadev.app.services.ServiceInterface;
 import pro.javadev.bean.context.AnnotationApplicationContext;
 import pro.javadev.bean.context.ApplicationContext;
@@ -19,6 +20,8 @@ public class Application {
         System.out.println(
                 context.getBean(ServiceInterface.class, "SERVICE_D")
         );
+
+        System.out.println(context.getBean(User.class));
 
         System.out.println("FINISH");
     }
