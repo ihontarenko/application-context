@@ -1,28 +1,28 @@
 package pro.javadev.app;
 
 import pro.javadev.app.services.ServiceA;
+import pro.javadev.app.services.ServiceB;
+import pro.javadev.app.services.ServiceInterface;
 import pro.javadev.bean.Bean;
 import pro.javadev.bean.Configuration;
 import pro.javadev.bean.Name;
-
-import java.util.Map;
 
 @Configuration
 public class ApplicationBeansConfig {
 
     @Bean
-    public Map<String, String> envs(@Name("NAME_OF_USER2") String name) {
-        return Map.of("k", getClass().getName(), "n", name);
+    public String userName() {
+        return "Chuck Norris";
     }
-
-    @Bean("anotherService")
-    public ServiceA serviceA(@Name("NAME_OF_USER2") String name) {
-        return new ServiceA(name);
-    }
-
-    @Bean("anotherServiceB")
-    public ServiceA serviceAB(@Name("NAME_OF_USER") String name) {
-        return new ServiceA(name);
-    }
+//
+//    @Bean("ServiceA1")
+//    public ServiceInterface serviceA(String name) {
+//        return new ServiceA(name);
+//    }
+//
+//    @Bean("ServiceB1")
+//    public ServiceInterface serviceB() {
+//        return new ServiceB();
+//    }
 
 }

@@ -5,14 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target({ElementType.CONSTRUCTOR})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Bean {
-
-    String value() default "";
-
-    String name() default "";
-
-    Scope scope() default Scope.SINGLETON;
+public @interface BeanContructor {
 
 }

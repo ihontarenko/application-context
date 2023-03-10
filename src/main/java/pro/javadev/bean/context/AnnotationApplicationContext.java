@@ -5,13 +5,9 @@ import pro.javadev.bean.BeanFactory;
 import pro.javadev.bean.processor.BeanProcessor;
 import pro.javadev.bean.processor.Processable;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 public class AnnotationApplicationContext implements ApplicationContext, Processable {
 
-    private final Map<String, Object> beans = new ConcurrentHashMap<>();
-    private final BeanFactory         factory;
+    private final BeanFactory factory;
 
     private AnnotationApplicationContext(BeanFactory factory) {
         this.factory = factory;
@@ -29,16 +25,14 @@ public class AnnotationApplicationContext implements ApplicationContext, Process
 
     @SuppressWarnings({"all"})
     @Override
-    public <T> T getBean(Class<T> type) {
-        return getBean(factory.createBeanName(type));
+    public <T> T getBean(Class<T> beanType) {
+        return factory.getBean(beanType);
     }
 
     @SuppressWarnings({"all"})
     @Override
     public <T> T getBean(String beanName) {
-        return (T) beans.computeIfAbsent(beanName, name -> {
-            return factory.getBean(name);
-        });
+        return factory.getBean(beanName);
     }
 
     @Override
@@ -47,7 +41,7 @@ public class AnnotationApplicationContext implements ApplicationContext, Process
     }
 
     @Override
-    public BeanFactory getBeanFactory() {
+    public BeanFactory getFactory() {
         return factory;
     }
 }

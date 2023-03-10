@@ -2,6 +2,7 @@ package pro.javadev.bean.creation;
 
 import pro.javadev.bean.BeanDependency;
 import pro.javadev.bean.BeanFactory;
+import pro.javadev.bean.ObjectCreationException;
 import pro.javadev.bean.definition.BeanDefinition;
 import pro.javadev.bean.definition.ConstructorBeanDefinition;
 
@@ -18,7 +19,12 @@ public class ConstructorBeanCreationStrategy extends AbstractBeanCreationStrateg
         Object[]                  arguments      = new Object[0];
 
         if (!dependencies.isEmpty()) {
-            arguments = getArguments(dependencies, factory);
+            try {
+                arguments = getArguments(dependencies, factory);
+            } catch (RuntimeException exception) {
+                throw new ObjectCreationException(
+                        "UNABLE TO CREATE BEAN VIA CONSTRUCTOR STRATEGY FOR BEAN TYPE: " + definition.getBeanClass(), exception);
+            }
         }
 
         return instantiate(beanDefinition.getConstructor(), arguments);

@@ -13,6 +13,8 @@ public interface BeanFactory extends Processable, ApplicationContextAware {
 
     <T> T getBean(String beanName);
 
+    String resolveBeanName(Class<?> type, String likelyName);
+
     List<String> getBeanNames(Class<?> type);
 
     <T> T createBean(BeanDefinition definition);

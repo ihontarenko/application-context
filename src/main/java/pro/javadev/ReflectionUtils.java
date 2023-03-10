@@ -93,17 +93,13 @@ abstract public class ReflectionUtils {
         try {
             constructor = clazz.getDeclaredConstructor(types);
         } catch (NoSuchMethodException e) {
-            if (clazz.getSuperclass() != null) {
+            if (clazz.getSuperclass() != null && !Object.class.isAssignableFrom(clazz.getSuperclass())) {
                 constructor = findFirstConstructor(clazz.getSuperclass(), types);
             }
         }
 
         if (constructor == null) {
             throw new ObjectCreationException(clazz.getName() + ": CONSTRUCTOR WITH (" + Arrays.toString(types) + ") PARAMETERS NOT FOUND");
-        }
-
-        if (!Modifier.isPublic(constructor.getModifiers())) {
-            constructor.setAccessible(true);
         }
 
         return constructor;

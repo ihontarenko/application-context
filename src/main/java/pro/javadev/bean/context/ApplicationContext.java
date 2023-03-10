@@ -9,6 +9,6 @@ public interface ApplicationContext extends Processable {
 
     <T> T getBean(String name);
 
-    BeanFactory getBeanFactory();
+    BeanFactory getFactory();
 
 }

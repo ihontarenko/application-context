@@ -1,6 +1,7 @@
 package pro.javadev.bean.definition;
 
 import pro.javadev.bean.BeanDependency;
+import pro.javadev.bean.Scope;
 import pro.javadev.bean.creation.BeanCreationStrategy;
 import pro.javadev.bean.BeanCreationType;
 
@@ -15,6 +16,18 @@ public interface BeanDefinition {
     Class<?> getBeanClass();
 
     void setBeanClass(Class<?> type);
+
+    void setBeanScope(Scope scope);
+
+    default boolean isSingleton() {
+        return getBeanScope() == Scope.SINGLETON || getBeanScope() == Scope.NON_BEAN;
+    }
+
+    default boolean isPrototype() {
+        return !isSingleton();
+    }
+
+    Scope getBeanScope();
 
     List<BeanDependency> getBeanDependencies();
 

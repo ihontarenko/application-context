@@ -1,5 +1,6 @@
 package pro.javadev;
 
+import pro.javadev.app.services.ServiceInterface;
 import pro.javadev.bean.context.AnnotationApplicationContext;
 import pro.javadev.bean.context.ApplicationContext;
 import pro.javadev.bean.processor.ApplicationContextAwareBeanProcessor;
@@ -16,11 +17,7 @@ public class Application {
         context.addBeanProcessor(new InjectableFieldsFillerBeanProcessor());
 
         System.out.println(
-                (Object) context.getBean("SERVICE_HANDLER")
-        );
-
-        System.out.println(
-                (Object) context.getBean("SERVICE_B")
+                context.getBean(ServiceInterface.class)
         );
 
         System.out.println("FINISH");

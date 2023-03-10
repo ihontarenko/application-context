@@ -16,8 +16,8 @@ public class MethodBeanCreationStrategy extends AbstractBeanCreationStrategy {
     @Override
     public Object createBean(BeanDefinition definition, BeanFactory factory) {
         MethodBeanDefinition      beanDefinition    = (MethodBeanDefinition) definition;
-        Method                    method            = beanDefinition.getBeanFactoryMethod();
-        Class<?>                  factoryClass      = method.getDeclaringClass();
+        Method                    factoryMethod     = beanDefinition.getBeanFactoryMethod();
+        Class<?>                  factoryClass      = factoryMethod.getDeclaringClass();
         ConstructorBeanDefinition factoryDefinition = (ConstructorBeanDefinition) factory.createBeanDefinition(factoryClass);
 
         try {
@@ -36,7 +36,7 @@ public class MethodBeanCreationStrategy extends AbstractBeanCreationStrategy {
             arguments = getArguments(dependencies, factory);
         }
 
-        return ReflectionUtils.invokeMethod(object, method, arguments);
+        return ReflectionUtils.invokeMethod(object, factoryMethod, arguments);
     }
 
     @Override

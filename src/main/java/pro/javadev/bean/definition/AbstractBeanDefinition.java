@@ -1,6 +1,7 @@
 package pro.javadev.bean.definition;
 
 import pro.javadev.bean.BeanDependency;
+import pro.javadev.bean.Scope;
 import pro.javadev.bean.creation.BeanCreationStrategy;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ abstract public class AbstractBeanDefinition implements BeanDefinition {
     protected final List<BeanDependency> dependencies;
     protected       String               name;
     protected       Class<?>             type;
+    protected       Scope                scope;
     protected       Object               instance = null;
     protected       BeanCreationStrategy strategy = null;
 
@@ -38,6 +40,16 @@ abstract public class AbstractBeanDefinition implements BeanDefinition {
     @Override
     public void setBeanClass(Class<?> type) {
         this.type = type;
+    }
+
+    @Override
+    public Scope getBeanScope() {
+        return scope;
+    }
+
+    @Override
+    public void setBeanScope(Scope scope) {
+        this.scope = scope;
     }
 
     @Override
@@ -69,7 +81,7 @@ abstract public class AbstractBeanDefinition implements BeanDefinition {
     public String toString() {
         final StringBuilder builder = new StringBuilder();
 
-        builder.append("[").append(name).append("]: ");
+        builder.append("[").append(name).append(':').append(scope).append("]: ");
         builder.append("CLASS: ").append(type).append("; ");
         builder.append("INSTANCE: ").append(instance).append("; ");
         builder.append("DEPENDENCIES: ").append(dependencies).append("; ");

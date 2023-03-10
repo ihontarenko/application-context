@@ -1,5 +1,5 @@
 package pro.javadev.bean;
 
 public enum Scope {
-    PROTOTYPE, SINGLETON
+    PROTOTYPE, SINGLETON, NON_BEAN
 }

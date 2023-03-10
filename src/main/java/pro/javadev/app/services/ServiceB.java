@@ -1,11 +1,12 @@
 package pro.javadev.app.services;
 
 import pro.javadev.bean.Bean;
+import pro.javadev.bean.Scope;
 import pro.javadev.bean.context.ApplicationContext;
 import pro.javadev.bean.context.ApplicationContextAware;
 
-@Bean
-public class ServiceB implements ApplicationContextAware {
+@Bean(scope = Scope.PROTOTYPE)
+public class ServiceB implements ApplicationContextAware, ServiceInterface {
 
     private ApplicationContext context;
 
