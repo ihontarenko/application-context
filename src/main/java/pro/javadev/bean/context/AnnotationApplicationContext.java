@@ -1,6 +1,6 @@
 package pro.javadev.bean.context;
 
-import pro.javadev.bean.AnnotationBeanFactory;
+import pro.javadev.bean.BeanFacrotyBuilder;
 import pro.javadev.bean.BeanFactory;
 import pro.javadev.bean.processor.BeanProcessor;
 import pro.javadev.bean.processor.Processable;
@@ -16,9 +16,7 @@ public class AnnotationApplicationContext implements ApplicationContext, Process
 
     public static ApplicationContext run(Class<?>... classes) {
         Class<?>[]  root    = classes == null ? new Class<?>[]{ApplicationContext.class} : classes;
-        BeanFactory factory = new AnnotationBeanFactory();
-
-        factory.scan(root);
+        BeanFactory factory = new BeanFacrotyBuilder(classes).build();
 
         return new AnnotationApplicationContext(factory);
     }

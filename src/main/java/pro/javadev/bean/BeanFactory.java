@@ -1,5 +1,6 @@
 package pro.javadev.bean;
 
+import pro.javadev.ClassUtils;
 import pro.javadev.bean.context.ApplicationContextAware;
 import pro.javadev.bean.definition.BeanDefinition;
 import pro.javadev.bean.processor.Processable;
@@ -9,6 +10,8 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
+
+import static pro.javadev.StringUtils.underscored;
 
 public interface BeanFactory extends Processable, ApplicationContextAware {
 
@@ -27,6 +30,26 @@ public interface BeanFactory extends Processable, ApplicationContextAware {
         }
 
         return value;
+    }
+
+    default String getBeanName(Class<?> type) {
+        String beanName = getBeanName(type, Bean.class);
+
+        if (beanName == null) {
+            beanName = ClassUtils.getShortName(type);
+        }
+
+        return underscored(beanName, true);
+    }
+
+    default String getBeanName(Method method) {
+        String beanName = getBeanName(method, Bean.class);
+
+        if (beanName == null) {
+            beanName = method.getName();
+        }
+
+        return underscored(beanName, true);
     }
 
     <T> T getBean(Class<T> beanType);
@@ -52,11 +75,5 @@ public interface BeanFactory extends Processable, ApplicationContextAware {
     BeanDefinition createBeanDefinition(Class<?> type, Class<?> factoryClass, Method factoryMethod);
 
     void registerBeanDefinition(BeanDefinition definition);
-
-    String getBeanName(Class<?> type);
-
-    String getBeanName(Method method);
-
-    void scan(Class<?>... classes);
 
 }

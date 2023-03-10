@@ -1,7 +1,5 @@
 package pro.javadev.bean;
 
-import pro.javadev.ClassUtils;
-import pro.javadev.StringUtils;
 import pro.javadev.bean.context.ApplicationContext;
 import pro.javadev.bean.creation.BeanCreationStrategy;
 import pro.javadev.bean.creation.ConstructorBeanCreationStrategy;
@@ -9,17 +7,17 @@ import pro.javadev.bean.creation.MethodBeanCreationStrategy;
 import pro.javadev.bean.creation.SupplierBeanCreationStrategy;
 import pro.javadev.bean.definition.*;
 import pro.javadev.bean.processor.BeanProcessor;
-import pro.javadev.bean.scanner.filter.SubclassClassFilter;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static pro.javadev.ReflectionUtils.*;
-import static pro.javadev.StringUtils.underscored;
-import static pro.javadev.bean.BeanClassScanner.*;
+import static pro.javadev.ReflectionUtils.findFirstAnnotatedConstructor;
+import static pro.javadev.ReflectionUtils.findFirstConstructor;
 
 public class AnnotationBeanFactory implements BeanFactory {
 
@@ -36,35 +34,6 @@ public class AnnotationBeanFactory implements BeanFactory {
         this.names = new ConcurrentHashMap<>();
         this.resolver = new BeanCreationStrategyResolver(
                 new ConstructorBeanCreationStrategy(), new MethodBeanCreationStrategy(), new SupplierBeanCreationStrategy());
-    }
-
-    @Override
-    public void scan(Class<?>... classes) {
-        // scanning classes @Bean annotated
-        Set<Class<?>> candidates = scanBeanClasses(classes);
-        for (Class<?> candidate : candidates) {
-            // is bean interface founded
-            if (candidate.isInterface()) {
-                // find all classes implemented current interface
-                List<Class<?>> subClasses = new ArrayList<>();
-                for (Class<?> subClass : scanPackagesWithFilter(new SubclassClassFilter(candidate), classes)) {
-                    if (!candidates.contains(subClass)) {
-                        subClasses.add(subClass);
-                    }
-                }
-                // no registration for this definition
-                createBeanDefinition(candidate, subClasses);
-            } else {
-                registerBeanDefinition(createBeanDefinition(candidate));
-            }
-        }
-
-        // scanning bean factory methods
-        for (Class<?> candidate : scanBeanConfigurationClasses(classes)) {
-            for (Method method : findAllAnnotatedMethods(candidate, Bean.class)) {
-                registerBeanDefinition(createBeanDefinition(method.getReturnType(), method.getDeclaringClass(), method));
-            }
-        }
     }
 
     @Override
@@ -109,7 +78,7 @@ public class AnnotationBeanFactory implements BeanFactory {
         if (names.size() == 1) {
             resolvedName = names.get(0);
         } else if (names.size() > 1 && !names.contains(resolvedName)) {
-            throw new ObjectCreationException("SPECIFY THE ACTUAL BEAN NAME OF ONE OF "+ names +" NAMES FOR TYPE: " + type);
+            throw new ObjectCreationException("SPECIFY THE ACTUAL BEAN NAME OF ONE OF " + names + " NAMES FOR TYPE: " + type);
         } else if (names.isEmpty()) {
             throw new ObjectCreationException("NO BEAN NAMES FOR TYPE: (" + type + ") AT ALL");
         }
@@ -172,8 +141,8 @@ public class AnnotationBeanFactory implements BeanFactory {
 
     @Override
     public BeanDefinition createBeanDefinition(Class<?> klass) {
-        String                    beanName    = getBeanName(klass);
-        ConstructorBeanDefinition definition  = new ConstructorBeanDefinition(beanName, klass);
+        String                    beanName   = getBeanName(klass);
+        ConstructorBeanDefinition definition = new ConstructorBeanDefinition(beanName, klass);
 
         Constructor<?> constructor;
 
@@ -238,40 +207,18 @@ public class AnnotationBeanFactory implements BeanFactory {
     }
 
     @Override
-    public String getBeanName(Class<?> type) {
-        String beanName = getBeanName(type, Bean.class);
-
-        if (beanName == null) {
-            beanName = ClassUtils.getShortName(type);
-        }
-
-        return underscored(beanName, true);
-    }
-
-    @Override
-    public String getBeanName(Method method) {
-        String beanName = getBeanName(method, Bean.class);
-
-        if (beanName == null) {
-            beanName = method.getName();
-        }
-
-        return underscored(beanName, true);
-    }
-
-    @Override
     public void addBeanProcessor(BeanProcessor processor) {
         this.processors.add(processor);
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext context) {
-        this.context = context;
+    public ApplicationContext getApplicationContext() {
+        return context;
     }
 
     @Override
-    public ApplicationContext getApplicationContext() {
-        return context;
+    public void setApplicationContext(ApplicationContext context) {
+        this.context = context;
     }
 
     private void updateBeanNames(BeanDefinition definition) {
@@ -295,19 +242,6 @@ public class AnnotationBeanFactory implements BeanFactory {
         }
 
         dependencies.add(new NamedDependency(parameter.getType(), name));
-    }
-
-    private static Set<Class<?>> scanBeanClasses(Class<?>... classes) {
-        return scanPackagesWithFilter(CLASS_BEAN_ANNOTATED_CLASS_FILTER, classes);
-    }
-
-    private static Set<Class<?>> scanBeanConfigurationClasses(Class<?>... classes) {
-        Set<Class<?>> candidates = new HashSet<>();
-
-        candidates.addAll(scanPackagesWithFilter(CLASS_CONFIGURATION_ANNOTATED_CLASS_FILTER, classes));
-        candidates.addAll(scanPackagesWithFilter(METHOD_BEAN_ANNOTATED_CLASS_FILTER, classes));
-
-        return candidates;
     }
 
 }
