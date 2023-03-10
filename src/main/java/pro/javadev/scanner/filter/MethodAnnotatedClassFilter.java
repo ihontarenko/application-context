@@ -1,4 +1,4 @@
-package pro.javadev.bean.scanner.filter;
+package pro.javadev.scanner.filter;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

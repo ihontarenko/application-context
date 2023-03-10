@@ -1,4 +1,4 @@
-package pro.javadev.bean.scanner;
+package pro.javadev.scanner;
 
 import java.io.File;
 import java.net.URL;

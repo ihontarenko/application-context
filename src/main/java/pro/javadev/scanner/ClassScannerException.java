@@ -1,4 +1,4 @@
-package pro.javadev.bean.scanner;
+package pro.javadev.scanner;
 
 public class ClassScannerException extends RuntimeException {
 

@@ -1,6 +1,6 @@
-package pro.javadev.bean.scanner;
+package pro.javadev.scanner;
 
-import pro.javadev.bean.scanner.filter.ClassFilter;
+import pro.javadev.scanner.filter.ClassFilter;
 import pro.javadev.filter.FilterAware;
 
 import java.util.ArrayList;

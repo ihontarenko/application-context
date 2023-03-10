@@ -1,10 +1,5 @@
-package pro.javadev.bean.scanner;
+package pro.javadev.scanner;
 
-import pro.javadev.bean.definition.BeanDefinition;
-import pro.javadev.bean.scanner.filter.AccessModifierClassFilter;
-import pro.javadev.bean.scanner.filter.SubclassClassFilter;
-
-import java.lang.reflect.Modifier;
 import java.util.Set;
 
 public class ClassScannerExample {

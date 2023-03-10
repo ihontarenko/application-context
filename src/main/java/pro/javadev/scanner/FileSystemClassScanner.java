@@ -1,4 +1,4 @@
-package pro.javadev.bean.scanner;
+package pro.javadev.scanner;
 
 import java.net.URL;
 import java.util.Enumeration;

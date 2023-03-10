@@ -1,7 +1,7 @@
 package pro.javadev.bean;
 
 import pro.javadev.Builder;
-import pro.javadev.bean.scanner.filter.SubclassClassFilter;
+import pro.javadev.scanner.filter.SubclassClassFilter;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

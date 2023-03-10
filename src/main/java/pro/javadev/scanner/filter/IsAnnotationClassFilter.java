@@ -1,4 +1,4 @@
-package pro.javadev.bean.scanner.filter;
+package pro.javadev.scanner.filter;
 
 public class IsAnnotationClassFilter extends AbstractClassFilter {
 

@@ -1,12 +1,12 @@
 package pro.javadev.bean;
 
-import pro.javadev.bean.scanner.ClassScanner;
-import pro.javadev.bean.scanner.FileSystemClassScanner;
-import pro.javadev.bean.scanner.JarClassScanner;
-import pro.javadev.bean.scanner.LocalClassScanner;
-import pro.javadev.bean.scanner.filter.ClassAnnotatedClassFilter;
-import pro.javadev.bean.scanner.filter.ClassFilter;
-import pro.javadev.bean.scanner.filter.MethodAnnotatedClassFilter;
+import pro.javadev.scanner.ClassScanner;
+import pro.javadev.scanner.FileSystemClassScanner;
+import pro.javadev.scanner.JarClassScanner;
+import pro.javadev.scanner.LocalClassScanner;
+import pro.javadev.scanner.filter.ClassAnnotatedClassFilter;
+import pro.javadev.scanner.filter.ClassFilter;
+import pro.javadev.scanner.filter.MethodAnnotatedClassFilter;
 
 import java.lang.reflect.Modifier;
 import java.util.HashSet;

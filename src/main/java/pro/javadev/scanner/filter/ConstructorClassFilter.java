@@ -1,6 +1,5 @@
-package pro.javadev.bean.scanner.filter;
+package pro.javadev.scanner.filter;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.List;

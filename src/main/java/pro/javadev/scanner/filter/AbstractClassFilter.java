@@ -1,4 +1,4 @@
-package pro.javadev.bean.scanner.filter;
+package pro.javadev.scanner.filter;
 
 abstract public class AbstractClassFilter implements ClassFilter {
 
