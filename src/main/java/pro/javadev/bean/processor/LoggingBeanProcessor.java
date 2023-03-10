@@ -15,7 +15,7 @@ public class LoggingBeanProcessor implements BeanProcessor {
     @Override
     public void process(Object bean, ApplicationContext context) {
         logger.accept(
-                "-- BEAN CREATED: [" + bean.hashCode() + "] " + bean.getClass().getName()
+                "-- BEAN CREATED: [" + bean.getClass().getName() + '@' + Integer.toHexString(bean.hashCode()) + "] "
         );
     }
 
