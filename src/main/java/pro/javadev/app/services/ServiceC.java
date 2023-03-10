@@ -5,18 +5,18 @@ import pro.javadev.bean.Name;
 
 import java.util.StringJoiner;
 
-public class ServiceA implements ServiceInterface{
+public class ServiceC implements ServiceInterface {
 
     private String name;
 
     @BeanContructor
-    public ServiceA(String name) {
+    public ServiceC(String name) {
         this.name = name;
     }
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", ServiceA.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", ServiceC.class.getSimpleName() + "[", "]")
                 .add("name='" + name + "'")
                 .toString();
     }

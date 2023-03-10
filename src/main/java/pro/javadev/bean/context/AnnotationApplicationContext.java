@@ -23,16 +23,19 @@ public class AnnotationApplicationContext implements ApplicationContext, Process
         return new AnnotationApplicationContext(factory);
     }
 
-    @SuppressWarnings({"all"})
     @Override
     public <T> T getBean(Class<T> beanType) {
         return factory.getBean(beanType);
     }
 
-    @SuppressWarnings({"all"})
     @Override
     public <T> T getBean(String beanName) {
         return factory.getBean(beanName);
+    }
+
+    @Override
+    public <T> T getBean(Class<T> beanType, String beanName) {
+        return factory.getBean(beanType, beanName);
     }
 
     @Override

@@ -12,6 +12,8 @@ abstract public class AbstractBeanDefinition implements BeanDefinition {
     protected final List<BeanDependency> dependencies;
     protected       String               name;
     protected       Class<?>             type;
+    protected       BeanDefinition       parent;
+    protected       List<BeanDefinition> children;
     protected       Scope                scope;
     protected       Object               instance = null;
     protected       BeanCreationStrategy strategy = null;
@@ -20,6 +22,7 @@ abstract public class AbstractBeanDefinition implements BeanDefinition {
         this.name = name;
         this.type = type;
         this.dependencies = new ArrayList<>();
+        this.children = new ArrayList<>();
     }
 
     @Override
@@ -40,6 +43,26 @@ abstract public class AbstractBeanDefinition implements BeanDefinition {
     @Override
     public void setBeanClass(Class<?> type) {
         this.type = type;
+    }
+
+    @Override
+    public BeanDefinition getParentDefinition() {
+        return parent;
+    }
+
+    @Override
+    public void setParentDefinition(BeanDefinition parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public List<BeanDefinition> getChildrenDefinitions() {
+        return children;
+    }
+
+    @Override
+    public void addChildDefinition(BeanDefinition child) {
+        children.add(child);
     }
 
     @Override
@@ -85,6 +108,7 @@ abstract public class AbstractBeanDefinition implements BeanDefinition {
         builder.append("CLASS: ").append(type).append("; ");
         builder.append("INSTANCE: ").append(instance).append("; ");
         builder.append("DEPENDENCIES: ").append(dependencies).append("; ");
+        builder.append("PARENT: ").append(parent).append("; ");
         builder.append("CREATION_TYPE: ").append(getBeanCreationType()).append("; ");
         builder.append("STRATEGY: ").append(strategy).append("; ");
 

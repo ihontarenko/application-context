@@ -4,4 +4,5 @@ public enum BeanCreationType {
     CONSTRUCTOR,
     METHOD,
     SUPPLIER,
+    SUB_CLASSES,
 }

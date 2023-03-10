@@ -3,6 +3,7 @@ package pro.javadev.bean.creation;
 import pro.javadev.ReflectionUtils;
 import pro.javadev.bean.BeanDependency;
 import pro.javadev.bean.BeanFactory;
+import pro.javadev.bean.ObjectCreationException;
 import pro.javadev.bean.definition.BeanDefinition;
 import pro.javadev.bean.definition.ConstructorBeanDefinition;
 import pro.javadev.bean.definition.DuplicateBeanDefinitionException;
@@ -33,7 +34,12 @@ public class MethodBeanCreationStrategy extends AbstractBeanCreationStrategy {
         beanDefinition.setBeanFactoryObject(object);
 
         if (!dependencies.isEmpty()) {
-            arguments = getArguments(dependencies, factory);
+            try {
+                arguments = getArguments(dependencies, factory);
+            } catch (RuntimeException exception) {
+                throw new ObjectCreationException(
+                        "UNABLE TO CREATE BEAN VIA METHOD STRATEGY FOR BEAN TYPE: " + definition.getBeanClass(), exception);
+            }
         }
 
         return ReflectionUtils.invokeMethod(object, factoryMethod, arguments);

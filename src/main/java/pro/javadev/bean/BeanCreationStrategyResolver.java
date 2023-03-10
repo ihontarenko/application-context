@@ -21,6 +21,6 @@ public class BeanCreationStrategyResolver {
                 return strategy;
             }
         }
-        throw new IllegalArgumentException("UNSUPPORTED BEAN CLASS: " + definition.getBeanName());
+        throw new IllegalArgumentException("UNSUPPORTED BEAN DEFINITION: \n" + definition);
     }
 }

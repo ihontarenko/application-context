@@ -13,22 +13,11 @@ public class InjectableFieldsFillerBeanProcessor implements BeanProcessor {
             if (field.isAnnotationPresent(Inject.class)) {
                 try {
                     field.setAccessible(true);
-                    field.set(bean, context.getBean(getBeanName(field)));
+                    field.set(bean, context.getBean(field.getType(), context.getFactory().getBeanName(field, Inject.class)));
                 } catch (IllegalAccessException e) {
                     // no-ops
                 }
             }
         }
     }
-
-    private String getBeanName(Field field) {
-        String name = null;
-
-        if (field.isAnnotationPresent(Inject.class)) {
-            name = field.getAnnotation(Inject.class).value();
-        }
-
-        return name;
-    }
-
 }
