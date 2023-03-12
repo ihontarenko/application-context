@@ -97,11 +97,13 @@ public class AnnotationBeanFactory implements BeanFactory {
     public <T> T createBean(BeanDefinition definition) {
         BeanCreationStrategy strategy = resolver.resolve(definition);
 
+        // check if requested definition currently in progress
         if (visitor.contains(definition)) {
             throw new ObjectCreationException(
                     "CYCLIC DEPENDENCIES DETECTED DURING BEAN '" + definition.getBeanName() + "' CREATION: ");
         }
 
+        // if not add it for visitor
         visitor.add(definition);
 
         T instance = (T) strategy.createBean(definition, this);
@@ -111,9 +113,14 @@ public class AnnotationBeanFactory implements BeanFactory {
                     "UNFORTUNATELY, THE STRATEGY FAILED TO CREATE THE BEAN OF TYPE: " + definition.getBeanClass());
         }
 
+        // remove definition from stack after successful creation
+        visitor.remove(definition);
+
+        // pass bean for processors
         processors.forEach(processor
                 -> processor.process(instance, getApplicationContext()));
 
+        // assign bean instance for it definition
         definition.setBeanInstance(instance);
 
         return instance;
