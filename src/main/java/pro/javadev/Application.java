@@ -5,7 +5,7 @@ import pro.javadev.app.services.Storage;
 import pro.javadev.bean.context.AnnotationApplicationContext;
 import pro.javadev.bean.context.ApplicationContext;
 import pro.javadev.bean.processor.ApplicationContextAwareBeanProcessor;
-import pro.javadev.bean.processor.EnvironmentVariablePropertyBeanProcessor;
+import pro.javadev.bean.processor.PropertyValueBeanProcessor;
 import pro.javadev.bean.processor.InjectableFieldsFillerBeanProcessor;
 import pro.javadev.bean.processor.LoggingBeanProcessor;
 
@@ -17,7 +17,7 @@ public class Application {
         context.addBeanProcessor(new LoggingBeanProcessor(System.out::println));
         context.addBeanProcessor(new ApplicationContextAwareBeanProcessor());
         context.addBeanProcessor(new InjectableFieldsFillerBeanProcessor());
-        context.addBeanProcessor(new EnvironmentVariablePropertyBeanProcessor(
+        context.addBeanProcessor(new PropertyValueBeanProcessor(
                 System.getProperties(), System.getenv()
         ));
 

@@ -7,11 +7,11 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EnvironmentVariablePropertyBeanProcessor implements BeanProcessor {
+public class PropertyValueBeanProcessor implements BeanProcessor {
 
     private final Map<Object, Object> globals;
 
-    public EnvironmentVariablePropertyBeanProcessor(Map<?, ?>... maps) {
+    public PropertyValueBeanProcessor(Map<?, ?>... maps) {
         Map<Object, Object> globals = new HashMap<>();
 
         for (Map<?, ?> map : maps) {
