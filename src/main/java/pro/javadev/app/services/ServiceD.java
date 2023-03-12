@@ -9,9 +9,6 @@ public class ServiceD implements ServiceInterface {
 
     private String name;
 
-    @BeanInjection
-    private Storage storage;
-
     @BeanInjection("REMOTE_USER_SERVICE")
     private UserService userService;
 
@@ -24,7 +21,6 @@ public class ServiceD implements ServiceInterface {
     public String toString() {
         return new StringJoiner(", ", ServiceD.class.getSimpleName() + "[", "]")
                 .add("name='" + name + "'")
-                .add("storage='" + storage + "'")
                 .add("service='" + userService + "'")
                 .toString();
     }

@@ -1,13 +1,11 @@
 package pro.javadev;
 
-import org.springframework.boot.BootstrapContextClosedEvent;
-import org.springframework.boot.logging.DeferredLog;
 import pro.javadev.app.User;
-import pro.javadev.app.services.ServiceInterface;
+import pro.javadev.app.services.Storage;
 import pro.javadev.bean.context.AnnotationApplicationContext;
 import pro.javadev.bean.context.ApplicationContext;
-import pro.javadev.bean.definition.BeanDefinition;
 import pro.javadev.bean.processor.ApplicationContextAwareBeanProcessor;
+import pro.javadev.bean.processor.EnvironmentVariablePropertyBeanProcessor;
 import pro.javadev.bean.processor.InjectableFieldsFillerBeanProcessor;
 import pro.javadev.bean.processor.LoggingBeanProcessor;
 
@@ -19,11 +17,13 @@ public class Application {
         context.addBeanProcessor(new LoggingBeanProcessor(System.out::println));
         context.addBeanProcessor(new ApplicationContextAwareBeanProcessor());
         context.addBeanProcessor(new InjectableFieldsFillerBeanProcessor());
+        context.addBeanProcessor(new EnvironmentVariablePropertyBeanProcessor(
+                System.getProperties(), System.getenv()
+        ));
 
-        System.out.println(
-                context.getBean(ServiceInterface.class, "SERVICE_D")
-        );
+        Storage.InMemoryStorage storage = (Storage.InMemoryStorage) context.getBean(Storage.class);
 
+        System.out.println(storage.getJavaHome());
         System.out.println(context.getBean(User.class));
 
         System.out.println("FINISH");

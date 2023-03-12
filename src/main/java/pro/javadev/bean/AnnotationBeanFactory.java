@@ -27,6 +27,7 @@ public class AnnotationBeanFactory implements BeanFactory {
     private final BeanCreationStrategyResolver resolver;
     private final List<BeanProcessor>          processors = new ArrayList<>();
     private       ApplicationContext           context;
+    private final List<BeanDefinition>         visitor;
 
     public AnnotationBeanFactory() {
         this.beans = new ConcurrentHashMap<>();
@@ -34,6 +35,7 @@ public class AnnotationBeanFactory implements BeanFactory {
         this.names = new ConcurrentHashMap<>();
         this.resolver = new BeanCreationStrategyResolver(
                 new ConstructorBeanCreationStrategy(), new MethodBeanCreationStrategy(), new SupplierBeanCreationStrategy());
+        this.visitor = new ArrayList<>();
     }
 
     @Override
@@ -94,14 +96,23 @@ public class AnnotationBeanFactory implements BeanFactory {
     @Override
     public <T> T createBean(BeanDefinition definition) {
         BeanCreationStrategy strategy = resolver.resolve(definition);
-        T                    instance = (T) strategy.createBean(definition, this);
+
+        if (visitor.contains(definition)) {
+            throw new ObjectCreationException(
+                    "CYCLIC DEPENDENCIES DETECTED DURING BEAN '" + definition.getBeanName() + "' CREATION: ");
+        }
+
+        visitor.add(definition);
+
+        T instance = (T) strategy.createBean(definition, this);
 
         if (instance == null) {
             throw new ObjectCreationException(
                     "UNFORTUNATELY, THE STRATEGY FAILED TO CREATE THE BEAN OF TYPE: " + definition.getBeanClass());
         }
 
-        processors.forEach(processor -> processor.process(instance, getApplicationContext()));
+        processors.forEach(processor
+                -> processor.process(instance, getApplicationContext()));
 
         definition.setBeanInstance(instance);
 
