@@ -62,11 +62,24 @@ public class AnnotationBeanFactory implements BeanFactory {
 
         if (bean == null) {
             BeanDefinition definition = getBeanDefinition(name);
+
+            // check if requested definition currently in progress
+            if (visitor.contains(definition)) {
+                throw new ObjectCreationException(
+                        "CYCLIC DEPENDENCIES DETECTED DURING BEAN '" + definition.getBeanName() + "' CREATION: ");
+            }
+
+            // if not add it for visitor
+            visitor.add(definition);
+
             bean = createBean(definition);
 
             if (definition.isSingleton()) {
                 beans.put(definition.getBeanName(), bean);
             }
+
+            // remove definition from stack after successful creation
+            visitor.remove(definition);
         }
 
         return bean;
@@ -96,25 +109,12 @@ public class AnnotationBeanFactory implements BeanFactory {
     @Override
     public <T> T createBean(BeanDefinition definition) {
         BeanCreationStrategy strategy = resolver.resolve(definition);
-
-        // check if requested definition currently in progress
-        if (visitor.contains(definition)) {
-            throw new ObjectCreationException(
-                    "CYCLIC DEPENDENCIES DETECTED DURING BEAN '" + definition.getBeanName() + "' CREATION: ");
-        }
-
-        // if not add it for visitor
-        visitor.add(definition);
-
-        T instance = (T) strategy.createBean(definition, this);
+        T                    instance = (T) strategy.createBean(definition, this);
 
         if (instance == null) {
             throw new ObjectCreationException(
                     "UNFORTUNATELY, THE STRATEGY FAILED TO CREATE THE BEAN OF TYPE: " + definition.getBeanClass());
         }
-
-        // remove definition from stack after successful creation
-        visitor.remove(definition);
 
         // pass bean for processors
         processors.forEach(processor

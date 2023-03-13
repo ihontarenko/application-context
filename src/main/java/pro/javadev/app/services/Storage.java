@@ -15,9 +15,6 @@ public interface Storage {
         @PropertyValue("java.home")
         private String javaHome;
 
-        @PropertyValue("java.dir")
-        private Integer string;
-
         public ServiceInterface getService() {
             return service;
         }
@@ -29,9 +26,9 @@ public interface Storage {
         @Override
         public String toString() {
             return "InMemoryStorage{" +
-                    "javaHome=" + javaHome +
-                    "service=" + service +
-                    '}';
+                    "\njavaHome=" + javaHome +
+                    "\nservice=" + service +
+                    "\n}";
         }
     }
 

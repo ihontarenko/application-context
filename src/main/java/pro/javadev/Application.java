@@ -24,6 +24,8 @@ public class Application {
         Storage.InMemoryStorage storage = (Storage.InMemoryStorage) context.getBean(Storage.class);
 
         System.out.println(storage.getJavaHome());
+        System.out.println(storage);
+
         System.out.println(context.getBean(User.class));
 
         System.out.println("FINISH");
