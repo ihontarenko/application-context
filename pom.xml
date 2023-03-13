@@ -32,7 +32,7 @@
         <project.build.sourceEncoding>${project.build.encoding}</project.build.sourceEncoding>
 
         <!-- Java -->
-        <java.version>11</java.version>
+        <java.version>16</java.version>
 
         <!-- Dependencies -->
 
