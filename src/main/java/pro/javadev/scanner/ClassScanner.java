@@ -1,7 +1,7 @@
 package pro.javadev.scanner;
 
-import pro.javadev.scanner.filter.ClassFilter;
 import pro.javadev.filter.FilterAware;
+import pro.javadev.scanner.filter.ClassFilter;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,6 +11,16 @@ import java.util.Set;
 import static java.util.stream.Collectors.toSet;
 
 public class ClassScanner extends Scanner.DefaultClassScanner implements FilterAware<ClassFilter> {
+
+    private static final ClassScanner CLASS_SCANNER;
+
+    static {
+        CLASS_SCANNER = new ClassScanner();
+        CLASS_SCANNER.addScanner(new FileSystemClassScanner() {{
+            addScanner(new JarClassScanner());
+            addScanner(new LocalClassScanner());
+        }});
+    }
 
     private final List<ClassFilter> filters = new ArrayList<>();
 
@@ -48,6 +58,10 @@ public class ClassScanner extends Scanner.DefaultClassScanner implements FilterA
         }
 
         return result;
+    }
+
+    public static ClassScanner getDefaultScanner() {
+        return CLASS_SCANNER;
     }
 
 }
