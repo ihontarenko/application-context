@@ -15,7 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.joining;
 import static pro.javadev.ReflectionUtils.findFirstAnnotatedConstructor;
 import static pro.javadev.ReflectionUtils.findFirstConstructor;
 
@@ -65,8 +67,12 @@ public class AnnotationBeanFactory implements BeanFactory {
 
             // check if requested definition currently in progress
             if (visitor.contains(definition)) {
+                visitor.add(definition);
+                String dependencyPath = visitor.stream().map(BeanDefinition::getBeanName)
+                        .collect(joining("\n\t -> "));
+                visitor.clear();
                 throw new ObjectCreationException(
-                        "CYCLIC DEPENDENCIES DETECTED DURING BEAN '" + definition.getBeanName() + "' CREATION: ");
+                        "CYCLIC DEPENDENCIES DETECTED DURING BEAN CREATION. DEPENDENCIES CHAIN: [\n\t -> " + dependencyPath + "\n]");
             }
 
             // if not add it for visitor
@@ -117,8 +123,9 @@ public class AnnotationBeanFactory implements BeanFactory {
         }
 
         // pass bean for processors
-        processors.forEach(processor
-                -> processor.process(instance, getApplicationContext()));
+        for (BeanProcessor processor : processors) {
+            processor.process(instance, getApplicationContext());
+        }
 
         // assign bean instance for it definition
         definition.setBeanInstance(instance);

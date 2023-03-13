@@ -12,7 +12,7 @@ public class ServiceD implements ServiceInterface {
     @BeanInjection("REMOTE_USER_SERVICE")
     private UserService userService;
 
-    @BeanInjection
+//    @BeanInjection
     private Storage storage;
 
     @BeanContructor
