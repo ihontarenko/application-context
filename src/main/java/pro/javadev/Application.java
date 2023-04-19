@@ -25,6 +25,7 @@ public class Application {
 
         System.out.println(storage.getJavaHome());
         System.out.println(storage);
+        System.out.println("service: " + storage.getService());
 
         System.out.println(context.getBean(User.class));
 

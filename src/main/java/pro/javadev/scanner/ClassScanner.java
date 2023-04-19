@@ -1,12 +1,12 @@
 package pro.javadev.scanner;
 
 import pro.javadev.filter.FilterAware;
+import pro.javadev.filter.FilteringMode;
 import pro.javadev.scanner.filter.ClassFilter;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toSet;
 
@@ -16,19 +16,24 @@ public class ClassScanner extends Scanner.DefaultClassScanner implements FilterA
 
     static {
         CLASS_SCANNER = new ClassScanner();
-        CLASS_SCANNER.addScanner(new FileSystemClassScanner() {{
+        CLASS_SCANNER.addScanner(new ResourcesClassScanner() {{
             addScanner(new JarClassScanner());
             addScanner(new LocalClassScanner());
         }});
     }
 
-    private final List<ClassFilter> filters = new ArrayList<>();
+    private final List<Predicate<Class<?>>> filters = new ArrayList<>();
+    private       FilteringMode             mode    = FilteringMode.AND;
+
+    public static ClassScanner getDefaultScanner() {
+        return CLASS_SCANNER;
+    }
 
     @Override
     public Set<Class<?>> scan(String name, ClassLoader loader) {
         Set<Class<?>> classes = new HashSet<>();
 
-        for (Scanner scanner : getScanners()) {
+        for (Scanner<Class<?>> scanner : scanners) {
             classes.addAll(scanner.scan(name, loader));
         }
 
@@ -50,18 +55,22 @@ public class ClassScanner extends Scanner.DefaultClassScanner implements FilterA
         filters.clear();
     }
 
-    private boolean applyFilter(Class<?> clazz) {
-        boolean result = true;
-
-        for (ClassFilter filter : filters) {
-            result = (result && filter.accept(clazz));
-        }
-
-        return result;
+    @Override
+    public FilteringMode getFilteringMode() {
+        return mode;
     }
 
-    public static ClassScanner getDefaultScanner() {
-        return CLASS_SCANNER;
+    @Override
+    public void setFilteringMode(FilteringMode mode) {
+        this.mode = mode;
+    }
+
+    private boolean applyFilter(Class<?> clazz) {
+        Stream<Predicate<Class<?>>>   stream = filters.stream();
+        Optional<Predicate<Class<?>>> filter = mode == FilteringMode.AND
+                ? stream.reduce(Predicate::and) : stream.reduce(Predicate::or);
+
+        return filter.orElse(object -> false).test(clazz);
     }
 
 }

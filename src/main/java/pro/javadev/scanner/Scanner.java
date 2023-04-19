@@ -5,39 +5,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public interface Scanner {
+public interface Scanner<T> {
 
     String CLASS_FILE_SUFFIX             = ".class";
     String UNSUPPORTED_FOR_CLASS_MESSAGE = "THIS METHOD IS UNSUPPORTED FOR CLASS: ";
 
-    default Set<Class<?>> scan(String name, ClassLoader loader) {
+    default Set<T> scan(String name, ClassLoader loader) {
         throw new UnsupportedOperationException(UNSUPPORTED_FOR_CLASS_MESSAGE + this.getClass().getName());
     }
 
-    default Set<Class<?>> scan(String name) {
-        throw new UnsupportedOperationException(UNSUPPORTED_FOR_CLASS_MESSAGE + this.getClass().getName());
-    }
-
-    default Set<Class<?>> scan(URL resource, String name, ClassLoader loader) {
+    default Set<T> scan(URL resource, String name, ClassLoader loader) {
         throw new UnsupportedOperationException(UNSUPPORTED_FOR_CLASS_MESSAGE + this.getClass().getName());
     }
 
     boolean supports(Object object);
 
-    void addScanner(Scanner scanner);
+    void addScanner(Scanner<T> scanner);
 
-    Scanner getScanner(Class<Scanner> type);
+    abstract class DefaultClassScanner implements Scanner<Class<?>> {
 
-    List<Scanner> getScanners();
-
-    Scanner getParent();
-
-    void setParent(Scanner scanner);
-
-    abstract class DefaultClassScanner implements Scanner {
-
-        private final List<Scanner> scanners       = new ArrayList<>();
-        private Scanner parent;
+        protected final List<Scanner<Class<?>>> scanners = new ArrayList<>();
 
         @Override
         public boolean supports(Object object) {
@@ -45,29 +32,8 @@ public interface Scanner {
         }
 
         @Override
-        public void addScanner(Scanner scanner) {
-            scanner.setParent(this);
+        public void addScanner(Scanner<Class<?>> scanner) {
             scanners.add(scanner);
-        }
-
-        @Override
-        public Scanner getScanner(Class<Scanner> type) {
-            return scanners.stream().filter(scanner -> scanner.getClass().isAssignableFrom(type)).findFirst().orElse(null);
-        }
-
-        @Override
-        public List<Scanner> getScanners() {
-            return scanners;
-        }
-
-        @Override
-        public Scanner getParent() {
-            return parent;
-        }
-
-        @Override
-        public void setParent(Scanner scanner) {
-            parent = scanner;
         }
     }
 

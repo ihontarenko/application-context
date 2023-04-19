@@ -23,6 +23,7 @@ public class JarClassScanner extends Scanner.DefaultClassScanner {
 
         try {
             if (supports(resource.getProtocol())) {
+                System.out.println(resource.toURI());
                 FileSystem   fileSystem = FileSystems.newFileSystem(resource.toURI(), Collections.emptyMap());
                 Path         path       = fileSystem.getPath(name.replace('.', '/'));
                 Stream<Path> walk       = Files.walk(path, Integer.MAX_VALUE);
