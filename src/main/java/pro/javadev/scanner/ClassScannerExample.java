@@ -1,11 +1,12 @@
 package pro.javadev.scanner;
 
-import pro.javadev.bean.definition.BeanDefinition;
 import pro.javadev.filter.FilteringMode;
 import pro.javadev.scanner.filter.AccessModifierClassFilter;
-import pro.javadev.scanner.filter.SubclassClassFilter;
+import pro.javadev.scanner.filter.IsRegularPathFilter;
 
 import java.lang.reflect.Modifier;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Set;
 
 public class ClassScannerExample {
@@ -45,6 +46,17 @@ public class ClassScannerExample {
         }
 
         System.out.println("total classes found: " + classes.size());
+
+        FilesScanner filesScanner = new FilesScanner();
+
+        filesScanner.addFilter(new IsRegularPathFilter());
+
+        Set<Path> paths = filesScanner.scan("pro/javadev/beans", ClassLoader.getSystemClassLoader());
+
+        for (Path path : paths) {
+            System.out.println(path);
+            System.out.println(Files.isRegularFile(path));
+        }
     }
 
 }
