@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class JrtClassScanner extends Scanner.DefaultClassScanner {
+public class JrtClassScanner extends AbstractScanner<Class<?>> {
 
     private final String module;
 

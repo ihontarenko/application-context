@@ -31,23 +31,8 @@ public interface Scanner<T> {
         throw new UnsupportedOperationException(UNSUPPORTED_FOR_CLASS_MESSAGE + this.getClass().getName());
     }
 
-    boolean supports(Object object);
-
-    void addScanner(Scanner<T> scanner);
-
-    abstract class DefaultClassScanner implements Scanner<Class<?>> {
-
-        protected final List<Scanner<Class<?>>> scanners = new ArrayList<>();
-
-        @Override
-        public boolean supports(Object object) {
-            return false;
-        }
-
-        @Override
-        public void addScanner(Scanner<Class<?>> scanner) {
-            scanners.add(scanner);
-        }
+    default boolean supports(Object object) {
+        throw new UnsupportedOperationException(UNSUPPORTED_FOR_CLASS_MESSAGE + this.getClass().getName());
     }
 
 }

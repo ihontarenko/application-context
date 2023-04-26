@@ -47,11 +47,15 @@ public class ClassScannerExample {
 
         System.out.println("total classes found: " + classes.size());
 
-        FilesScanner filesScanner = new FilesScanner();
+        FileScanner filesScanner = new FileScanner();
 
         filesScanner.addFilter(new IsRegularPathFilter());
 
-        Set<Path> paths = filesScanner.scan("pro/javadev/beans", ClassLoader.getSystemClassLoader());
+        System.out.println(
+                ClassLoader.getSystemClassLoader().getResource("pro/javadev")
+        );
+
+        Set<Path> paths = filesScanner.scan("pro/javadev", ClassLoader.getSystemClassLoader());
 
         for (Path path : paths) {
             System.out.println(path);

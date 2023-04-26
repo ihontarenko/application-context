@@ -5,7 +5,7 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ResourcesClassScanner extends Scanner.DefaultClassScanner {
+public class ResourcesClassScanner extends AbstractScanner<Class<?>> {
 
     @Override
     public Set<Class<?>> scan(String name, ClassLoader loader) {
@@ -19,6 +19,7 @@ public class ResourcesClassScanner extends Scanner.DefaultClassScanner {
                 URL resource = resources.nextElement();
                 for (Scanner<Class<?>> scanner : scanners) {
                     if (scanner.supports(resource.getProtocol())) {
+                        System.out.println(resource);
                         classes.addAll(scanner.scan(resource, name, loader));
                     }
                 }

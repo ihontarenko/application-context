@@ -1,21 +1,29 @@
 package pro.javadev.scanner;
 
+import pro.javadev.scanner.filter.IsFileExtensionFilter;
+import pro.javadev.scanner.filter.IsRegularPathFilter;
+
 import java.io.File;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
 
-public class LocalClassScanner extends Scanner.DefaultClassScanner {
+public class LocalClassScanner extends AbstractScanner<Class<?>> {
 
-    @Override
-    public Set<Class<?>> scan(String name, ClassLoader loader) {
-        return null;
-    }
+    private final FileScanner scanner = new FileScanner() {{
+        addFilter(new IsRegularPathFilter());
+        addFilter(new IsFileExtensionFilter("class"));
+    }};
 
     @Override
     public Set<Class<?>> scan(URL resource, String name, ClassLoader loader) {
+        for (Path path : scanner.scan(resource, name, loader)) {
+            System.out.println(path);
+        }
+
         try {
             return findClasses(new File(resource.getFile()), name, loader);
         } catch (Exception e) {

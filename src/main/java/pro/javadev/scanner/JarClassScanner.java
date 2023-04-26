@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
-public class JarClassScanner extends Scanner.DefaultClassScanner {
+public class JarClassScanner extends AbstractScanner<Class<?>> {
 
     @Override
     public boolean supports(Object protocol) {

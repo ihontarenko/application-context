@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public abstract class AbstractScanner<T> implements Scanner<T>, FilterAware<Filter<T>> {
+public abstract class AbstractScanner<T> implements Scanner<T>, CompositeScanner<T>, FilterAware<Filter<T>> {
 
     protected final List<Scanner<T>>   scanners = new ArrayList<>();
     private final   List<Predicate<T>> filters  = new ArrayList<>();

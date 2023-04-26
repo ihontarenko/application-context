@@ -15,7 +15,7 @@ public class IsRegularPathFilter extends AbstractPathFilter {
 
     @Override
     public boolean accept(Path object) {
-        return Files.isReadable(object) != invert;
+        return Files.isRegularFile(object) != invert;
     }
 
 }
