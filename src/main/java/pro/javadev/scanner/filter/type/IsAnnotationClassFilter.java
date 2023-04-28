@@ -1,6 +1,6 @@
-package pro.javadev.scanner.filter;
+package pro.javadev.scanner.filter.type;
 
-public class IsAnnotationClassFilter extends AbstractClassFilter {
+public class IsAnnotationClassFilter extends AbstractTypeFilter {
 
     public IsAnnotationClassFilter() {
         this(false);

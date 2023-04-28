@@ -1,6 +1,6 @@
-package pro.javadev.scanner.filter;
+package pro.javadev.scanner.filter.type;
 
-public class AccessModifierClassFilter implements ClassFilter {
+public class AccessModifierClassFilter implements TypeFilter {
 
     private final int modifiers;
     private final boolean invert;

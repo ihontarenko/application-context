@@ -1,6 +1,6 @@
-package pro.javadev.scanner.filter;
+package pro.javadev.scanner.filter.type;
 
-public class IsEnumClassFilter extends AbstractClassFilter {
+public class IsEnumClassFilter extends AbstractTypeFilter {
 
     public IsEnumClassFilter() {
         this(false);

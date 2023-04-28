@@ -1,4 +1,4 @@
-package pro.javadev.scanner.filter;
+package pro.javadev.scanner.filter.type;
 
 public class DeprecatedClassFilter extends ClassAnnotatedClassFilter {
 

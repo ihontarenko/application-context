@@ -1,6 +1,6 @@
-package pro.javadev.scanner.filter;
+package pro.javadev.scanner.filter.type;
 
-public class SubclassClassFilter extends AbstractClassFilter {
+public class SubclassClassFilter extends AbstractTypeFilter {
 
     private final Class<?> superClass;
 

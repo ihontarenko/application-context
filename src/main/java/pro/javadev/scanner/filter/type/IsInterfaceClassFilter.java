@@ -1,6 +1,6 @@
-package pro.javadev.scanner.filter;
+package pro.javadev.scanner.filter.type;
 
-public class IsInterfaceClassFilter extends AbstractClassFilter {
+public class IsInterfaceClassFilter extends AbstractTypeFilter {
 
     public IsInterfaceClassFilter() {
         this(false);

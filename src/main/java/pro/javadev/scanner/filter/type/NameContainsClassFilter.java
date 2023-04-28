@@ -1,8 +1,8 @@
-package pro.javadev.scanner.filter;
+package pro.javadev.scanner.filter.type;
 
 import pro.javadev.ClassUtils;
 
-public class NameContainsClassFilter extends AbstractClassFilter {
+public class NameContainsClassFilter extends AbstractTypeFilter {
 
     private final String name;
 

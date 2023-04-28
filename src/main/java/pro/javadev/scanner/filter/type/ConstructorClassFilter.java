@@ -1,10 +1,10 @@
-package pro.javadev.scanner.filter;
+package pro.javadev.scanner.filter.type;
 
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.List;
 
-public class ConstructorClassFilter extends AbstractClassFilter {
+public class ConstructorClassFilter extends AbstractTypeFilter {
 
     private final Class<?>[] types;
 

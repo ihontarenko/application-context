@@ -1,4 +1,4 @@
-package pro.javadev.scanner.filter;
+package pro.javadev.scanner.filter.path;
 
 abstract public class AbstractPathFilter implements PathFilter {
 

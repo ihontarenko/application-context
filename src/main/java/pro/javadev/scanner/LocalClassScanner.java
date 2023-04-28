@@ -1,7 +1,7 @@
 package pro.javadev.scanner;
 
-import pro.javadev.scanner.filter.IsFileExtensionFilter;
-import pro.javadev.scanner.filter.IsRegularPathFilter;
+import pro.javadev.scanner.filter.path.IsFileExtensionFilter;
+import pro.javadev.scanner.filter.path.IsRegularPathFilter;
 
 import java.io.File;
 import java.net.URL;

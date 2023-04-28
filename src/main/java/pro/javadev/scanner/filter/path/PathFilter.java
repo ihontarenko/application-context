@@ -1,4 +1,4 @@
-package pro.javadev.scanner.filter;
+package pro.javadev.scanner.filter.path;
 
 import pro.javadev.filter.Filter;
 

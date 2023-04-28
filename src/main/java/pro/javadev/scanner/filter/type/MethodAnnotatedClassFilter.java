@@ -1,10 +1,10 @@
-package pro.javadev.scanner.filter;
+package pro.javadev.scanner.filter.type;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-public class MethodAnnotatedClassFilter extends AbstractClassFilter {
+public class MethodAnnotatedClassFilter extends AbstractTypeFilter {
 
     private final Class<? extends Annotation> annotation;
     private final int                         modifiers;

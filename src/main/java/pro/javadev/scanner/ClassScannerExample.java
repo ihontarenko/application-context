@@ -1,8 +1,8 @@
 package pro.javadev.scanner;
 
 import pro.javadev.filter.FilteringMode;
-import pro.javadev.scanner.filter.AccessModifierClassFilter;
-import pro.javadev.scanner.filter.IsRegularPathFilter;
+import pro.javadev.scanner.filter.type.AccessModifierClassFilter;
+import pro.javadev.scanner.filter.path.IsRegularPathFilter;
 
 import java.lang.reflect.Modifier;
 import java.nio.file.Files;

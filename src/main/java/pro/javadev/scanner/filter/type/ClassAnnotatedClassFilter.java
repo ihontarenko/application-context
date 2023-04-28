@@ -1,8 +1,8 @@
-package pro.javadev.scanner.filter;
+package pro.javadev.scanner.filter.type;
 
 import java.lang.annotation.Annotation;
 
-public class ClassAnnotatedClassFilter extends AbstractClassFilter {
+public class ClassAnnotatedClassFilter extends AbstractTypeFilter {
 
     private final Class<? extends Annotation> annotation;
 
