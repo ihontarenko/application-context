@@ -28,14 +28,4 @@ public class FileScanner extends AbstractScanner<Path> {
         }
     }
 
-    @Override
-    public boolean supports(Object object) {
-        throw new UnsupportedOperationException(UNSUPPORTED_FOR_CLASS_MESSAGE + this.getClass().getName());
-    }
-
-    @Override
-    public void addScanner(Scanner<Path> scanner) {
-        throw new UnsupportedOperationException(UNSUPPORTED_FOR_CLASS_MESSAGE + this.getClass().getName());
-    }
-
 }

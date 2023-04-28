@@ -11,9 +11,9 @@ import java.util.stream.Stream;
 
 public abstract class AbstractScanner<T> implements Scanner<T>, CompositeScanner<T>, FilterAware<Filter<T>> {
 
-    protected final List<Scanner<T>>   scanners = new ArrayList<>();
     private final   List<Predicate<T>> filters  = new ArrayList<>();
     private         FilteringMode      mode     = FilteringMode.AND;
+    protected final List<Scanner<T>>   scanners = new ArrayList<>();
 
     @Override
     public void addScanner(Scanner<T> scanner) {
