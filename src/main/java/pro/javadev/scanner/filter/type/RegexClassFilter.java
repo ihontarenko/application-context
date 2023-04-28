@@ -2,7 +2,7 @@ package pro.javadev.scanner.filter.type;
 
 public class RegexClassFilter extends AbstractTypeFilter {
 
-    private final String  regex;
+    private final String regex;
 
     public RegexClassFilter(String regex) {
         this(regex, true);

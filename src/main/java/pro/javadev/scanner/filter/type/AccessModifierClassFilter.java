@@ -2,7 +2,7 @@ package pro.javadev.scanner.filter.type;
 
 public class AccessModifierClassFilter implements TypeFilter {
 
-    private final int modifiers;
+    private final int     modifiers;
     private final boolean invert;
 
     public AccessModifierClassFilter(int modifiers, boolean invert) {

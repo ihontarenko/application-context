@@ -29,7 +29,8 @@ public class FieldAnnotatedClassFilter extends AbstractTypeFilter {
 
         for (Field field : clazz.getFields()) {
             if (field.isAnnotationPresent(annotation) && (field.getModifiers() & modifiers) != 0) {
-                result = true; break;
+                result = true;
+                break;
             }
         }
 

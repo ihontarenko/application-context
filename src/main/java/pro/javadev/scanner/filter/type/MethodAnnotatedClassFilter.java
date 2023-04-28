@@ -29,7 +29,8 @@ public class MethodAnnotatedClassFilter extends AbstractTypeFilter {
 
         for (Method method : clazz.getMethods()) {
             if (method.isAnnotationPresent(annotation) && (method.getModifiers() & modifiers) != 0) {
-                result = true; break;
+                result = true;
+                break;
             }
         }
 
