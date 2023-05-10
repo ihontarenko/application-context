@@ -20,38 +20,24 @@ public class LocalClassScanner extends AbstractScanner<Class<?>> {
 
     @Override
     public Set<Class<?>> scan(URL resource, String name, ClassLoader loader) {
+        Set<Class<?>> classes = new HashSet<>();
+
         for (Path path : scanner.scan(resource, name, loader)) {
-            System.out.println(path);
+            try {
+                String packagePath = path.toFile().getParent().replaceAll("[\\\\/]+", ".");
+                int    lastIndex   = packagePath.lastIndexOf(name);
+                String packageName = packagePath.substring(lastIndex);
+
+                classes.add(loader.loadClass(getClassName(packageName, path.toFile())));
+            } catch (Throwable ignore) { }
         }
 
-        try {
-            return findClasses(new File(resource.getFile()), name, loader);
-        } catch (Exception e) {
-            throw new ClassScannerException(e);
-        }
+        return classes;
     }
 
     @Override
     public boolean supports(Object object) {
         return object.equals("file");
-    }
-
-    private Set<Class<?>> findClasses(File directory, String name, ClassLoader loader) {
-        Set<Class<?>> classes = new HashSet<>();
-
-        if (directory.exists()) {
-            for (File file : requireNonNull(directory.listFiles())) {
-                if (file.isDirectory()) {
-                    classes.addAll(findClasses(file, name + "." + file.getName(), loader));
-                } else if (file.getName().endsWith(CLASS_FILE_SUFFIX)) {
-                    try {
-                        classes.add(loader.loadClass(getClassName(name, file)));
-                    } catch (Throwable ignore) {}
-                }
-            }
-        }
-
-        return classes;
     }
 
     private String getClassName(String name, File file) {

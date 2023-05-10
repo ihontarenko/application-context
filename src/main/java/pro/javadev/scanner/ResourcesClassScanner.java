@@ -19,7 +19,6 @@ public class ResourcesClassScanner extends AbstractScanner<Class<?>> {
                 URL resource = resources.nextElement();
                 for (Scanner<Class<?>> scanner : scanners) {
                     if (scanner.supports(resource.getProtocol())) {
-                        System.out.println(resource);
                         classes.addAll(scanner.scan(resource, name, loader));
                     }
                 }
