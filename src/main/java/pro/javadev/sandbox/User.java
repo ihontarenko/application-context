@@ -1,4 +1,4 @@
-package pro.javadev.app;
+package pro.javadev.sandbox;
 
 import pro.javadev.bean.Bean;
 

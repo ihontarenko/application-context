@@ -3,7 +3,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>pro.javadev</groupId>
+    <groupId>io.github.ihontarenko</groupId>
     <artifactId>application-context</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <name>ApplicationContext</name>
@@ -20,6 +20,14 @@
             <timezone>Europe/Kyiv</timezone>
         </developer>
     </developers>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
     <properties>
         <!-- Project -->

@@ -1,22 +1,21 @@
-package pro.javadev.app.services;
+package pro.javadev.sandbox.services;
 
 import pro.javadev.bean.BeanContructor;
-import pro.javadev.bean.Name;
 
 import java.util.StringJoiner;
 
-public class ServiceC implements ServiceInterface {
+public class ServiceA implements ServiceInterface{
 
     private String name;
 
     @BeanContructor
-    public ServiceC(String name) {
+    public ServiceA(String name) {
         this.name = name;
     }
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", ServiceC.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", ServiceA.class.getSimpleName() + "[", "]")
                 .add("name='" + name + "'")
                 .toString();
     }

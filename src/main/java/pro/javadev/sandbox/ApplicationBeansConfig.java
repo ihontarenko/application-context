@@ -1,8 +1,8 @@
-package pro.javadev.app;
+package pro.javadev.sandbox;
 
-import pro.javadev.app.services.ServiceA;
-import pro.javadev.app.services.ServiceB;
-import pro.javadev.app.services.ServiceInterface;
+import pro.javadev.sandbox.services.ServiceA;
+import pro.javadev.sandbox.services.ServiceB;
+import pro.javadev.sandbox.services.ServiceInterface;
 import pro.javadev.bean.Bean;
 import pro.javadev.bean.BeanConfiguration;
 

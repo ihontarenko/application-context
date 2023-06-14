@@ -1,6 +1,6 @@
-package pro.javadev.app;
+package pro.javadev.sandbox;
 
-import pro.javadev.app.services.ServiceInterface;
+import pro.javadev.sandbox.services.ServiceInterface;
 import pro.javadev.bean.Bean;
 import pro.javadev.bean.BeanContructor;
 

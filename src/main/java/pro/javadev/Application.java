@@ -1,7 +1,7 @@
 package pro.javadev;
 
-import pro.javadev.app.User;
-import pro.javadev.app.services.Storage;
+import pro.javadev.sandbox.User;
+import pro.javadev.sandbox.services.Storage;
 import pro.javadev.bean.context.AnnotationApplicationContext;
 import pro.javadev.bean.context.ApplicationContext;
 import pro.javadev.bean.processor.ApplicationContextAwareBeanProcessor;

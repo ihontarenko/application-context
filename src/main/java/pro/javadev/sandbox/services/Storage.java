@@ -1,4 +1,4 @@
-package pro.javadev.app.services;
+package pro.javadev.sandbox.services;
 
 import pro.javadev.bean.Bean;
 import pro.javadev.bean.BeanInjection;
