@@ -11,4 +11,6 @@ public @interface BeanInjection {
 
     String value() default "";
 
+    boolean enable() default false;
+
 }

@@ -2,7 +2,6 @@ package pro.javadev.bean.definition;
 
 import pro.javadev.bean.BeanCreationType;
 
-import java.lang.reflect.Method;
 import java.util.function.Supplier;
 
 public class SupplierBeanDefinition extends AbstractBeanDefinition {
@@ -29,11 +28,7 @@ public class SupplierBeanDefinition extends AbstractBeanDefinition {
 
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder("SUPPLIER_BEAN_DEFINITION: ");
-
-        builder.append(super.toString());
-
-        return builder.toString();
+        return "SUPPLIER_BEAN_DEFINITION: " + super.toString();
     }
 
 }
