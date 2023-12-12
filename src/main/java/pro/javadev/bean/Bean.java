@@ -15,4 +15,6 @@ public @interface Bean {
 
     Scope scope() default Scope.SINGLETON;
 
+    boolean lazy() default false;
+
 }

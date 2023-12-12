@@ -1,6 +1,6 @@
 package pro.javadev.sandbox.services;
 
-import pro.javadev.bean.BeanContructor;
+import pro.javadev.bean.BeanConstructor;
 
 import java.util.StringJoiner;
 
@@ -8,7 +8,7 @@ public class ServiceE implements ServiceInterface {
 
     private String name;
 
-    @BeanContructor
+    @BeanConstructor
     public ServiceE(String name) {
         this.name = name;
     }

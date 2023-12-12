@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
 import static pro.javadev.ReflectionUtils.findFirstAnnotatedConstructor;
@@ -172,7 +171,7 @@ public class AnnotationBeanFactory implements BeanFactory {
         Constructor<?> constructor;
 
         try {
-            constructor = findFirstAnnotatedConstructor(klass, BeanContructor.class);
+            constructor = findFirstAnnotatedConstructor(klass, BeanConstructor.class);
         } catch (Exception annotatedConstructorException) {
             try {
                 constructor = findFirstConstructor(klass);
@@ -215,7 +214,14 @@ public class AnnotationBeanFactory implements BeanFactory {
             }
         }
 
-        definition.setBeanScope(method.getAnnotation(Bean.class).scope());
+        Bean annotation = method.getAnnotation(Bean.class);
+
+        definition.setBeanScope(annotation.scope());
+
+        // todo: add fast initializing and lazy-load handling
+        if (!annotation.lazy()) {
+            createBean(definition);
+        }
 
         return definition;
     }

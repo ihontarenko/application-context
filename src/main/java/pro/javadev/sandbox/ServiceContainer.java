@@ -2,7 +2,7 @@ package pro.javadev.sandbox;
 
 import pro.javadev.sandbox.services.ServiceInterface;
 import pro.javadev.bean.Bean;
-import pro.javadev.bean.BeanContructor;
+import pro.javadev.bean.BeanConstructor;
 
 import java.util.StringJoiner;
 
@@ -11,7 +11,7 @@ public class ServiceContainer {
 
     private ServiceInterface serviceA;
 
-    @BeanContructor
+    @BeanConstructor
     public ServiceContainer(ServiceInterface serviceA) {
         this.serviceA = serviceA;
     }

@@ -1,6 +1,6 @@
 package pro.javadev.sandbox.services;
 
-import pro.javadev.bean.BeanContructor;
+import pro.javadev.bean.BeanConstructor;
 import pro.javadev.bean.BeanInjection;
 
 import java.util.StringJoiner;
@@ -15,7 +15,7 @@ public class ServiceD implements ServiceInterface {
 //    @BeanInjection
     private Storage storage;
 
-    @BeanContructor
+    @BeanConstructor
     public ServiceD(String name) {
         this.name = name;
     }
